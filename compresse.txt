@@ -1,1 +1,1 @@
-abdcdcdbe
+This file is for testing the huffman's algorithme
