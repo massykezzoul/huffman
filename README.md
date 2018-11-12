@@ -1,4 +1,4 @@
-# HUFFMAN PROJECT by massili kezzoul
+# HUFFMAN COMPRESSOR
 
 Ceci est l'implementationde l'algorithme de compression de données de huffman dans le langages C
 Réalisé dans le cadre d'un TP en Novembre 2018
