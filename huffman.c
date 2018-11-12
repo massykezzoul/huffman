@@ -67,12 +67,13 @@ int main(int argc, char const *argv[])
 	/* Construction de l'arbre */
 	arbre = make_arbre(d,taille_d,&taille_arbre);
 
-	affiche_arbre(arbre,taille_arbre);
+	/*affiche_arbre(arbre,taille_arbre);		*/
 	
 	/* Determiner le codage de chaque char sous forme d'un tableau	*/
 	tab_code = calcul_codage(arbre,taille_d);
 
-	affiche_codage(tab_code,taille_d);
+	/* Affichage de la table de huffman associé */
+	/*affiche_codage(tab_code,taille_d);		*/
 
 	/* ----------------------------------------------------------------------------------------------------*/
 	/* Etape de creation du fichier compressé */
