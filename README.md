@@ -1,16 +1,18 @@
-# HUFFMAN COMPRESSOR
+# Algorithme de HUFFMAN
 
-Ceci est l'implementation de l'algorithme de compression de données de huffman dans le langages C
-Réalisé dans le cadre d'un TP en Novembre 2018
+## Information Géneral
 
-Pour Compilé : 
-	make all
+Ce programme est l'implementation de l'algorithme de compression de données de huffman dans le langages C.
 
-Pour Compressé le fichier test fournie (le fichier compressé sera 'compressed.huf'):
-	make exe
+## Utilisation du Programme 
 
-Pour crée une archive du code source en .tar.gz :
-	make tar
+- Pour Compilé : <br>
+	`make all`
 
-Pour crée une archive du code source en .zip 	:
-	make zip
+- Pour Compressé le fichier test fournie (le fichier compressé sera 'compressed.huf'): <br>
+	`make exe`
+
+Cette version ne prend pas en charge la décompression.
+
+## A Venir
+- Prise en charge de la décompression.
