@@ -1,39 +1,53 @@
 CC=gcc
-CFLAGS=-Wall -pedantic -ansi 
 LDFLAGS=
-EXEC=huffman
-ARGV=compresse.txt
-SRC = huffman.c arbre/arbre.c proba/proba.c compress/compress.c
+
+HUFF=huffman
+MAINH=huffman.c
+
+DEHUFF=dehuffman
+MAIND=dehuffman.c
+
+SRCH = $(MAINH) arbre/arbre.c proba/proba.c compress/compress.c
+SRCD = $(MAIND) arbre/arbre.c proba/proba.c compress/compress.c
+
 HEADERS = arbre/arbre.h proba/proba.h compress/compress.h
-OBJ= $(SRC:.c=.o)
+OBJH= $(SRCH:.c=.o) 
+OBJD= $(SRCD:.c=.o)
 
-all: $(EXEC)
+huff: $(HUFF)
 
-$(EXEC) : $(OBJ) $(HEADERS)
-	@$(CC) -o $(EXEC) $(OBJ) $(LDFLAGS) && echo "$(EXEC) created" || echo "Fail"
+$(HUFF) : $(OBJH) $(HEADERS)
+	@$(CC) -o $(HUFF) $(OBJH) $(LDFLAGS) && echo "$(HUFF) created" || echo "Fail"
 
-%.o: %.c 
-	@$(CC) -o $@ -c $< $(CFLAGS) 
+dehuff: $(DEHUFF)
 
-exe : 
-	@./$(EXEC) $(ARGV) && echo "\nProgramme executé sans Erreur" || echo "\nErreur lors de l'execution du programme"
+$(DEHUFF) : $(OBJD) $(HEADERS)
+	@$(CC) -o $(DEHUFF) $(OBJD) $(LDFLAGS) && echo "$(DEHUFF) created" || echo "Fail"
+
+
+
+arbre/arbre.o : arbre/arbre.c
+	@$(CC) -o arbre/arbre.o -c arbre/arbre.c $(CFLAGS)
+
+proba/proba.o : proba/proba.c
+	@$(CC) -o proba/proba.o -c proba/proba.c $(CFLAGS)
+
+compress/compress.o : compress/compress.c
+	@$(CC) -o compress/compress.o -c compress/compress.c $(CFLAGS)
+
+huffman.o : huffman.c
+	@$(CC) -o huffman.o -c huffman.c $(CFLAGS)
+
+dehuffman.o : dehuffman.c
+	@$(CC) -o dehuffman.o -c dehuffman.c $(CFLAGS)
+
+
+
 
 .PHONY : clean mrproper
 
 clean :
-	@rm $(OBJ) -rvf
+	rm $(OBJH) $(OBJD) -rvf
 
 mrproper :	clean
-	@rm $(EXEC) -rvf
-
-tar : 
-	@tar -czvf code_source.tar.gz makefile $(SRC) $(HEADERS) && echo "'code_source.tar.gz' created" || echo "FAIL"
-zip : 
-	@zip -r code_source.zip makefile $(SRC) $(HEADERS) && echo "'code_source.zip' created" || echo "FAIL"
-
-subl :
-	@subl $(SRC) $(HEADERS)
-
-evince:
-	@evince ../../TD\ \&\ TP.pdf &
-
+	@rm $(HUFF) $(DEHUFF) -rvf
