@@ -9,8 +9,8 @@ Par Kezzoul Massili.
 ## Compilation
 
 Pour compiler :
-- Le compresseur : make huff
-- Le decompresseur: make dehuff
+- Le compresseur : `make huff`
+- Le decompresseur: `make dehuff`
 
 
 ## Utilisation
