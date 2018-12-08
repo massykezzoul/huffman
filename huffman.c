@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
 		fichier = fopen(argv[1],"r");
 		compress = fopen(argv[2],"w");
 	} else {
-		printf("Manque un argument.\n");
+		printf("Peu d'arguments.\n");
 		exit(1);
 	}
 
@@ -71,7 +71,7 @@ int main(int argc, char const *argv[])
 		/* Lecture des occurences et des probabilité à partir du fichier */
 
 		if (fichier == NULL || compress == NULL) {
-			printf("Erreur lors de la lecture du fichier '%s', merci de verifier son existance\n",argv[1]);
+			printf("Erreur lors de la lecture du fichier '%s', merci de verifier son existance\n",(fichier==NULL)?argv[1]:argv[2]);
 			exit(1);
 		} else {
 			/* Calcule des occurences */
@@ -111,12 +111,6 @@ int main(int argc, char const *argv[])
 		
 		/* ----------------------------------------------------------------------------------------------------*/
 		/* Etape de creation du fichier compressé */		
-
-		/* ecriture du fichier compressé */
-		if (fichier==NULL || compress == NULL) {
-			printf("Erreur!!\n");
-			exit(1);
-		}
 
 		compresse(fichier,compress,tab_code,taille_d);
 
