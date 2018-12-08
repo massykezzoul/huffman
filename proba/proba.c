@@ -12,13 +12,16 @@ unsigned long int calcul_occurences(unsigned long int* compte, FILE* fichier) {
 		c=fgetc(fichier);
 		taille++;
 	}
+	rewind(fichier);
 	return taille;
 }
 
-void calcul_proba(float* proba,unsigned long int* compte,unsigned long int taille,FILE* fichier){
+void calcul_proba(float* proba,unsigned long int* compte,unsigned long int taille){
 	int i;
 	for (i = 0; i < 256; ++i) {
-		proba[i] = (float) compte[i] / taille;
+		if (compte[i] != 0) {
+			proba[i] = (float) compte[i] / taille;
+		}
 	}
 }
 
@@ -39,51 +42,21 @@ unsigned long int nb_char(float* proba){
 
 void init_distribution(float* proba,distribution* d,unsigned long int taille) {
 	/* Mettre toute les proba à 2.0 */
-	int i;
-	for (i = 0; i < taille; ++i) {
-		d[i].proba = 2.0;
+	int i,j=0;
+	for (j = 0; j < taille; ++j) {
+		d[j].proba = 2.0;
 	}
 
-	/* Insertions des valeurs une à une en gardant le trie */
+	j  = 0;
 	for (i = 0; i < 256; ++i) {
 		if (proba[i] != 0) {
-			inserer_trie((char)i,proba[i],d,taille);
+			d[j].valeur = (char)i;
+			d[j].proba = proba[i];
+			j++;
 		}
 	}
 }
 
-void inserer_trie(char c,float p,distribution* d,unsigned long int taille) { /* à refaire en dichotomique */
-	int i;
-	distribution tmp,tmp2;
-	i = 0;
-	/* Recherche de sa place */
-	while ((i < taille) && (d[i].proba < p)) 
-		i++;
-
-	tmp.proba = d[i].proba;
-	tmp.valeur = d[i].valeur;
-
-	d[i].proba = p;
-	d[i].valeur = c;
-
-	i++;
-
-	/* Decalage des valeurs qui viennent aprés */
-	while (tmp.proba != 2.0) {
-		/* sauvgarde de l'ancienne valeur */
-		tmp2.proba = d[i].proba;
-		tmp2.valeur = d[i].valeur;
-
-		/* Mise à jour du tableau */
-		d[i].proba = tmp.proba;
-		d[i].valeur = tmp.valeur;	
-
-		/* passe à la suivante */
-		tmp.proba = tmp2.proba;
-		tmp.valeur = tmp2.valeur;
-		i++;
-	}
-}
 
 void affiche_d(distribution* d,unsigned long int taille){
 	int i;

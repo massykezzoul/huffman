@@ -79,11 +79,12 @@ node copier_node(node a_copier) {
 
 void concat(char* chaine,char c,int taille) {
 	int i;
-	chaine = realloc(chaine,(taille+1)*sizeof(char));
+	chaine = realloc(chaine,(taille+2)*sizeof(char));
 	/* decalacge des caractère */
 	for (i = taille; i > 0; --i)
 		chaine[i] = chaine[i-1];
 
+	chaine[taille+1] = '\0';
 	chaine[0] = c;
 }
 
@@ -92,6 +93,7 @@ codage* calcul_codage(node* arbre,unsigned long int nb_char) {
 	int taille_code;
 	unsigned long int i,precedent,courent;
 
+	float moyenne = 0;
 
 	courent = 0;							/* premier caractère */
 	precedent = 0; 							/* indice du noeud precedent */
@@ -102,7 +104,7 @@ codage* calcul_codage(node* arbre,unsigned long int nb_char) {
 	for (i = 0; i < nb_char; ++i) { 
 		taille_code = 0;
 		code[i].valeur = arbre[i].valeur; 				/* initialisation de la valeur */
-		code[i].code = calloc(taille_code,sizeof(char));	/* initialisation du code huffman */
+		code[i].code = calloc(taille_code+1,sizeof(char));	/* initialisation du code huffman */
 		courent = arbre[i].pere;
 		precedent = i;
 		/* Parcour jusqu'a la racine */
@@ -115,9 +117,11 @@ codage* calcul_codage(node* arbre,unsigned long int nb_char) {
 			precedent = courent;
 			courent = arbre[courent].pere; /* vers le pere */
 			++taille_code;
+			moyenne++;
 		}
 	}
 
+	printf("Taille de codage moyen : %0.2f\n",(float)moyenne/nb_char);
 	return code;
 }
 
