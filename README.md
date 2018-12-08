@@ -1,4 +1,4 @@
-# HUFFMAN COMPRESSOR
+# Algorithme de HUFFMAN
 
 ## Presentation
 
