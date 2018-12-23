@@ -5,6 +5,8 @@
 #include "proba/proba.h"
 #include "compress/compress.h"
 
+#define VERBOSE__ 0
+
 void affiche_info(FILE* source, FILE* dest) {
 	/*
 		affiche les info suivants :			
@@ -52,8 +54,8 @@ int main(int argc, char const *argv[])
 	codage* tab_code2;
 	/* initialisation des variables */
 	if (argc > 2) {
-		fichier = fopen(argv[1],"r");
-		compress = fopen(argv[2],"w");
+		fichier = fopen(argv[1],"rb");
+		compress = fopen(argv[2],"wb");
 	} else {
 		printf("Peu d'arguments.\n");
 		exit(1);
@@ -94,27 +96,27 @@ int main(int argc, char const *argv[])
 		init_distribution(proba,d,taille_d);
 
 		/* Affiche la distribution 	*/ 
-		affiche_d(d,taille_d);
+		if (VERBOSE__) affiche_d(d,taille_d);
 		
 		/* ----------------------------------------------------------------------------------------------------*/
 		/* Etape de creation de l'arbre de huffman */
 		
 		/* Construction de l'arbre */
 		arbre = make_arbre(d,taille_d,&taille_arbre);
-		affiche_arbre(arbre,taille_arbre);
+		if (VERBOSE__) affiche_arbre(arbre,taille_arbre);
 		
 		/* Determiner le codage de chaque char sous forme d'un tableau	*/
 		tab_code = calcul_codage(arbre,taille_d);
 		
 		/* Affichage de la table de huffman associé */
-		affiche_codage(tab_code,taille_d);
+		if (VERBOSE__) affiche_codage(tab_code,taille_d);
 		
 		/* ----------------------------------------------------------------------------------------------------*/
 		/* Etape de creation du fichier compressé */		
 
 		compresse(fichier,compress,tab_code,taille_d);
 
-		printf("Fichier Compressé Créer avec Succée.\n");
+		printf("Fichier '%s' Créer avec Succée.\n",argv[2]);
 
 		affiche_info(fichier,compress);
 		

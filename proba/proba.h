@@ -23,7 +23,7 @@ void calcul_proba(float* proba,unsigned long int* compte,unsigned long int taill
 
 typedef struct distribution distribution;
 struct distribution {
-	char valeur;
+	unsigned char valeur;
 	float proba;
 };
 

@@ -47,7 +47,7 @@ dehuffman.o : dehuffman.c
 .PHONY : clean mrproper
 
 clean :
-	rm $(OBJH) $(OBJD) -rvf
+	@rm $(OBJH) $(OBJD) -rvf
 
 mrproper :	clean
 	@rm $(HUFF) $(DEHUFF) -rvf

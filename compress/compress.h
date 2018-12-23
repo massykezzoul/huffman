@@ -9,13 +9,14 @@ void compresse(FILE* non_compresse,FILE* compresse,codage* huffman,int taille_hu
 	2 - lit le fichier non_compressé et ecrit le code associé de chaque caractère dans le fichier compressé
  */
 
-void decompresse(FILE* compresse,FILE* non_compresse);
+void decompresse(FILE* compresse,FILE* non_compresse,int verbose);
 /*
 	1 - Lit l'entête du fichier
 	2 - Décompresse le fichier compresser
+	si (verbose != 0) alors la fonction affiche les information de décompression en détail (La distribution, l'arbre de huffman, le codage de chaque caractère)
  */
 
-char* get_code(codage* huffman,char val,int taille);
+char* get_code(codage* huffman,unsigned char val,int taille);
 /*
 	renvoie le code huffman associé au caractère val
  */
@@ -48,10 +49,6 @@ int FromBinToDecimal(unsigned char* binaire,int nb );
 	Convertion Binaire TO Decimal
 	Retourne l'entier conrespondant au binaire codé en nb bits
 */
-int isBin(char c);
-/*
-	Retourn vrai si 'c' est soit un 1 soit 0 
-	faux sinon 
-*/
+
 
 #endif

@@ -5,7 +5,7 @@
 
 typedef struct node node;
 struct node{
-	char valeur;
+	unsigned char valeur;
 	int pere; /*la position du père dans le tableau*/
 	int gauche; /*le fils gauche*/
 	int droite; /*le fils droite */
@@ -14,7 +14,7 @@ struct node{
 
 typedef struct codage codage;
 struct codage {
-	char valeur;
+	unsigned char valeur;
 	char* code;
 };
 
@@ -46,7 +46,7 @@ node copier_node(node a_copier);
 	return un node qui est égal à celui donnée en paramètre
  */
 
-void concat(char* chaine,char c,int taille) ;
+void concat(char* chaine,unsigned char c,int taille) ;
 /*
 	ajoute le char c au debut de la chaine "chaine"
 	Rq : chaine doit etre alloué dynamiquement

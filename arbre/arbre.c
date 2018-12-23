@@ -77,7 +77,7 @@ node copier_node(node a_copier) {
 	return res;
 }
 
-void concat(char* chaine,char c,int taille) {
+void concat(char* chaine,unsigned char c,int taille) {
 	int i;
 	chaine = realloc(chaine,(taille+2)*sizeof(char));
 	/* decalacge des caractère */
@@ -121,7 +121,6 @@ codage* calcul_codage(node* arbre,unsigned long int nb_char) {
 		}
 	}
 
-	printf("Taille de codage moyen : %0.2f\n",(float)moyenne/nb_char);
 	return code;
 }
 

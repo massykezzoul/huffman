@@ -5,9 +5,9 @@
 /* Calcul des probas */
 
 unsigned long int calcul_occurences(unsigned long int* compte, FILE* fichier) {
-	char c = fgetc(fichier);
+	unsigned char c = fgetc(fichier);
 	unsigned long int taille = 0;
-	while (c != EOF) {
+	while ( !feof(fichier)) {
 		compte[(int)c]++;
 		c=fgetc(fichier);
 		taille++;

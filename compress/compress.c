@@ -8,7 +8,7 @@
 #include <unistd.h> /* sleep function */
 
 void compresse(FILE* non_compresse,FILE* compresse,codage* huffman,int taille_huf) {
-	char c;		/* pour lire un caractère du fichier non compressé */
+	unsigned char c;		/* pour lire un caractère du fichier non compressé */
 	int i,j;
 	unsigned char *code; /* Pour stocké le code huffman associé avant de le mettre dans le buffer */
 	unsigned char buffer[9] = "22222222\0";
@@ -17,7 +17,7 @@ void compresse(FILE* non_compresse,FILE* compresse,codage* huffman,int taille_hu
 	/* Ecriture des données compressé  */
 	c = fgetc(non_compresse);
 
-	while (c != EOF) {
+	while (!feof(non_compresse)) {
 
 		i=0;
        	while(buffer[i]!='2') i++;
@@ -76,7 +76,7 @@ void compresse(FILE* non_compresse,FILE* compresse,codage* huffman,int taille_hu
 
 }
 
-void decompresse(FILE* compresse,FILE* non_compresse) {
+void decompresse(FILE* compresse,FILE* non_compresse,int verbose) {
 	float proba[256] = {0.0};
 	unsigned long int taille_d = 0,taille_arbre = 0;
 	distribution* d;
@@ -97,15 +97,15 @@ void decompresse(FILE* compresse,FILE* non_compresse) {
 	
 	init_distribution(proba,d,taille_d);
 
-	affiche_d(d,taille_d);
+	if (verbose) affiche_d(d,taille_d);
 
 	arbre = make_arbre(d,taille_d,&taille_arbre);
 
-	affiche_arbre(arbre,taille_arbre);
+	if (verbose) affiche_arbre(arbre,taille_arbre);
 
 	code = calcul_codage(arbre,taille_arbre);
 	
-	affiche_codage(code,taille_d);
+	if (verbose) affiche_codage(code,taille_d);
 
 	if (non_compresse == NULL) {
 		printf("Le fichier décompréssé : \n");
@@ -191,7 +191,7 @@ void ecrire_entete(FILE* compresse,unsigned long int occurences[],int nb_char) {
 	}
 	/* nb_char est le nombre de caractère différent du fichier */
 	/* Ecriture du nombre de caractère différents au debut du fichier */
-	fprintf(compresse,"%c",(char)nb_char);
+	fprintf(compresse,"%c",(unsigned char)nb_char);
 	/* initaliser le nombre de de bit non sgnificatif en fin de fichier */
 	fprintf(compresse,"%c",0);
 
@@ -199,8 +199,8 @@ void ecrire_entete(FILE* compresse,unsigned long int occurences[],int nb_char) {
 	for(i = 0;i<256;++i) {
 		if (occurences[i] != 0) {
 			/* Ecriture du caractère codé en 8 bits dans le fichier compressé*/
-			fprintf(compresse,"%c",(char)i);
-			FromDecimalToBin((char)i,binaire,8);
+			fprintf(compresse,"%c",(unsigned char)i);
+			FromDecimalToBin((unsigned char)i,binaire,8);
 			
 			/* Ecriture du nombre d'occurences du caractère codé en 32 bits  */
 			binaire = realloc(binaire,33*sizeof(unsigned char));
@@ -248,7 +248,6 @@ int lire_entete(FILE* fichier,float* proba) {
 		binaire = binaryToString(c,8);
 		i = FromBinToDecimal(binaire,8);
 
-		printf("(%c) ->\n",(char)i);
 
 		/* Lecture du nombre d'occurence de cet élement là */
 		binaire2 = malloc(9*sizeof(unsigned char));
@@ -257,15 +256,11 @@ int lire_entete(FILE* fichier,float* proba) {
 			binaire= binaryToString(c,8);
 			binaire2 = strcat(binaire2,binaire);
 
-			printf("%s -> %s\n",binaire,binaire2);
 		}
 		proba[i] = FromBinToDecimal(binaire2,32);
-		printf("proba de (%c) -- > %f\n",(char)i,proba[i]);
 		nbc+=proba[i];
-		printf("nbc = %d\n",nbc);
 	}
 
-	printf("nbc = %d\n",nbc);
 	for (k=0;k<256;k++) {
 		if (proba[k] != 0.0) {
 			proba[k] = proba[k] / nbc;
@@ -276,7 +271,7 @@ int lire_entete(FILE* fichier,float* proba) {
 	return ziyada;
 }
 
-char* get_code(codage* huffman,char val,int taille) {
+char* get_code(codage* huffman,unsigned char val,int taille) {
 	int i = 0;
 	while ((i<taille) && (huffman[i].valeur!=val)) i++;
 	return huffman[i].code;
@@ -330,8 +325,4 @@ int FromBinToDecimal(unsigned char* binaire,int nb_bits) {
 		--i;
 	}
 	return decimal;
-}
-
-int isBin(char c) {
-	return (c == '1' || c == '0');
 }
