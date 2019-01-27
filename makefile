@@ -14,6 +14,8 @@ HEADERS = arbre/arbre.h proba/proba.h compress/compress.h
 OBJH= $(SRCH:.c=.o) 
 OBJD= $(SRCD:.c=.o)
 
+all : $(HUFF) $(DEHUFF)
+
 huff: $(HUFF)
 
 $(HUFF) : $(OBJH) $(HEADERS)
