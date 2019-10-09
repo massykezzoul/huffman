@@ -1,5 +1,5 @@
 CC=gcc
-LDFLAGS=
+LDFLAGS=-Wall -ansi -O3
 
 HUFF=huffman
 MAINH=huffman.c
